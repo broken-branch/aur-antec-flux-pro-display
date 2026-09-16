@@ -1,0 +1,13 @@
+post_install() {
+  cat <<'MSG'
+:: antec-flux-pro-display starts whenever the case display is present (udev), so
+   there is nothing to enable; it should be running now. If it is not, as root:
+     udevadm trigger --action=add --attr-match=idVendor=2022 --attr-match=idProduct=0522
+   Sensor names are in /etc/antec-flux-pro-display/config.conf; the defaults suit
+   an AMD CPU and GPU. Check with: antec-flux-pro-display --list-sensors
+MSG
+}
+
+post_upgrade() {
+  echo ':: Run: systemctl restart antec-flux-pro-display'
+}

@@ -1,0 +1,58 @@
+[Unit]
+Description=Antec Flux Pro case display (CPU and GPU temperatures)
+Documentation=https://github.com/Reikooters/antec-flux-pro-display
+# The udev rule (60-antec-flux-pro-display.rules) exposes the display to systemd as
+# dev-antec_flux_pro_display.device and wants this service, so it starts whenever
+# the display appears (boot or hotplug) and stops when it goes away. That is why
+# there is no [Install] section: nothing to enable, and no restart loop while the
+# display is absent.
+BindsTo=dev-antec_flux_pro_display.device
+After=dev-antec_flux_pro_display.device
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/antec-flux-pro-display
+Restart=on-failure
+RestartSec=5
+
+# A configuration error exits with status 2; restarting cannot fix it.
+RestartPreventExitStatus=2
+
+# Unprivileged: the udev rule makes the display's raw USB node writable by this
+# user's group (both created by sysusers.d).
+User=antec-flux-pro-display
+UMask=0077
+PrivateTmp=yes
+RemoveIPC=yes
+
+# It needs /dev/bus/usb/* for the display and read access to /sys/class/hwmon for
+# libsensors, nothing else. PrivateNetwork= also isolates the netlink socket libusb
+# uses for hotplug events, which is fine: BindsTo= handles unplugging and the daemon
+# reopens the display itself after a failed write. AF_NETLINK stays allowed so
+# libusb can still create that socket.
+CapabilityBoundingSet=
+DevicePolicy=closed
+DeviceAllow=char-usb_device rw
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+NoNewPrivileges=yes
+PrivateNetwork=yes
+IPAddressDeny=any
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectProc=invisible
+ProcSubset=pid
+ProtectSystem=strict
+RestrictAddressFamilies=AF_UNIX AF_NETLINK
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallFilter=~@privileged @resources
+SystemCallErrorNumber=EPERM

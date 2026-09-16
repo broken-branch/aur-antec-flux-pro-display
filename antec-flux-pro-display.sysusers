@@ -1,0 +1,4 @@
+# The daemon's user. Static rather than DynamicUser= because the udev rule assigns
+# the display's USB node to this group whenever the display appears, including
+# while the service is not running, so the group has to exist permanently.
+u antec-flux-pro-display - "Antec Flux Pro case display" - -

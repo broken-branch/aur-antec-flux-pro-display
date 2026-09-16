@@ -1,0 +1,9 @@
+# Antec Flux Pro side-panel temperature display, USB 2022:0522. Its single HID
+# interface has only an interrupt OUT endpoint, so usbhid declines it ("couldn't find
+# an input interrupt endpoint") and no hidraw node appears; antec-flux-pro-display
+# drives it over libusb.
+#
+# GROUP/MODE let the daemon's user (sysusers.d) write to the raw USB node. The
+# systemd tag exposes the display as dev-antec_flux_pro_display.device and starts
+# the service whenever the display appears; it must be set before 99-systemd.rules.
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="2022", ATTR{idProduct}=="0522", GROUP="antec-flux-pro-display", MODE="0660", TAG+="systemd", ENV{SYSTEMD_ALIAS}="/dev/antec_flux_pro_display", ENV{SYSTEMD_WANTS}="antec-flux-pro-display.service"
