@@ -82,8 +82,9 @@ What is not obvious from the files:
   The rule must stay numbered below 99 so `99-systemd.rules` sees its tag.
 - The unit does not set `PrivateNetwork=`: libusb learns of hotplug through a netlink
   socket and its device list goes stale without one.
-- The `000?-*.patch` series is upstream's code with fixes intended for upstream; none
-  has been submitted yet. Rebase on new releases; drop each once merged.
+- The `000?-*.patch` series is upstream's code with fixes offered upstream as
+  [PR #5](https://github.com/Reikooters/antec-flux-pro-display/pull/5), still open.
+  Rebase on new releases; drop each once merged.
 - To verify a change: the service is `active`, the journal shows two "using" lines
   and nothing after, `systemd-analyze security` still says "safe", and unplugging
   the display stops the service while replugging starts it.

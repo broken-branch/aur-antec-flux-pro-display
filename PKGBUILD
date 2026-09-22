@@ -1,12 +1,12 @@
 # Maintainer: broken-branch <broken-branch@users.noreply.github.com>
 pkgname=antec-flux-pro-display
 pkgver=1.2
-pkgrel=4
+pkgrel=5
 pkgdesc="Show CPU and GPU temperatures on the side-panel display of Antec Flux Pro cases"
 arch=('x86_64')
 url="https://github.com/Reikooters/antec-flux-pro-display"
 license=('GPL-3.0-only' '0BSD')
-depends=('gcc-libs' 'glibc' 'libusb' 'lm_sensors')
+depends=('glibc' 'libgcc' 'libusb' 'lm_sensors')
 makedepends=('cargo')
 backup=("etc/$pkgname/config.conf")
 install="$pkgname.install"
@@ -25,7 +25,7 @@ sha256sums=('d1c91b256c47139a81fbaf89d22a3018cdbc1b7c8b3a73b295fd8121ae874b9b'
             '7cc545f162663a1e0c54df7566d082d83c08202723cfe68fbd563fb2aea1192a'
             '802c901cef7ee89a25a92048093863ff758ecae68f6e7ab270933965a3590905'
             '6e5d5eec1f74f1589c6a687c5ada8575f5265e4a98783518eb95064af828d238'
-            '835dc254be97d9d1114403c1a7157df273a8580514c8d5ee31be27bf9892efe3'
+            'c366efbf20758624836327faef0fbef3dfb100071abb519f3819b69e22285595'
             'cde9cfed4b9e95ef33c937745e2fd939b52b45bf6c7136280dc8b904b270cd5c'
             '1e2010521d7fbb29400e6f23712093c0c3b6a2e96a10cf7fcc398b309b42eb16'
             '8078ee35e4abdc9a5e2d87a6f4fc8dd7cb61aef9b9c22a5edd7f5ef5e1ba33e0'
@@ -33,7 +33,8 @@ sha256sums=('d1c91b256c47139a81fbaf89d22a3018cdbc1b7c8b3a73b295fd8121ae874b9b'
 
 prepare() {
   cd "$pkgname-$pkgver"
-  # Fixes intended for upstream, not yet submitted; drop once a release has them.
+  # Offered upstream as Reikooters/antec-flux-pro-display#5 (open); drop once a
+  # release has them.
   patch -Np1 -i "$srcdir/0001-usb-errors-and-digits.patch"
   patch -Np1 -i "$srcdir/0002-config-cli-and-sensor-matching.patch"
   patch -Np1 -i "$srcdir/0003-rescan-log-once-and-reconnect.patch"
