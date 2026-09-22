@@ -7,15 +7,17 @@ Manjaro, etc.
 
 ## Install
 
-From the AUR, with an AUR helper or by hand:
+The package is not on the AUR yet (AUR account registration is paused). Until it is,
+build it from this repository:
 
 ```sh
-git clone https://aur.archlinux.org/antec-flux-pro-display.git
-cd antec-flux-pro-display
+git clone https://github.com/broken-branch/aur-antec-flux-pro-display.git
+cd aur-antec-flux-pro-display
 makepkg -si
 ```
 
-The same files are at <https://github.com/broken-branch/aur-antec-flux-pro-display>.
+Once it is on the AUR, `git clone https://aur.archlinux.org/antec-flux-pro-display.git`
+or an AUR helper will give you the same files.
 If your Rust comes from rustup.rs rather than the `rust` package, use `makepkg -d -f`
 and install the result with `sudo pacman -U antec-flux-pro-display-[0-9]*.pkg.tar.zst`
 (the pattern skips the debug package makepkg also builds).
